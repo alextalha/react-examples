@@ -1,39 +1,55 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
+
+class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      nome: "Alex", 
+      contador : 0,
+      horario: "00:00:00"
+    }
+  }
 
 
-class Equipe extends Component{
+
+
+  componentDidMount(){
+    setInterval(() => {
+        this.setState({horario : new Date().toLocaleTimeString()})
+    }, 1000);
+  }
+
+  componentDidUpdate(){
+    console.log("Atualizou")
+  }
+
+    
   
-  render(){
+  aumentar(){
+    this.setState({contador : this.state.contador + 1})
+  }
+
+
+  diminuir(){
+    this.setState({contador : this.state.contador - 1})
+  }
+
+
+  render() {
     return (
       <div>
-        <hr/>
-       <Sobre nome={this.props.nome} cargo={this.props.cargo} idade={this.props.idade} />
+         <span>Contador</span>
+        <div>
+          <div>Horário => {this.state.horario} </div>
+          <button onClick={ (event) => this.diminuir()}>-</button>
+          {this.state.contador} 
+          <button onClick={ (event) => this.aumentar()}>+</button>
+        </div>
       </div>
     )
   }
-}
-class Sobre extends Component{
-  
-  render(){
-    return (
-      <div>
-        <span>Olá meu nome é {this.props.nome}</span> <br />
-        <span>Olá meu cargo é {this.props.cargo}</span><br />
-        <span>Olá minha idade é {this.props.idade}</span>
-      </div>
-    )
-  }
-}
-
-function App(props) {
-  return (
-    <div>
-      <h1>Conheça nossa equipe</h1>
-      <Equipe nome="Alex" cargo="Analista de Sistemas" idade="36"/>
-      <Equipe nome="Aline" cargo="Jornalista" idade="37"/>
-    </div>
-  )
-  
 }
 
 export default App;
+
