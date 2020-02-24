@@ -1,49 +1,80 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
 
-class App extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      email : "",
-      senha : "",
-      sexo : "masculino"
+class App extends Component{
+
+  constructor(){
+    super()
+      this.state = {
+        nome : "",
+        email : "",
+        senha : "",
+        error : []
+      
     }
   }
+ 
 
 
-  trocaSexo(e){
-    let trocaSexo = e.target.value
-    this.setState({sexo : trocaSexo})
+  validar(event){
 
+    event.preventDefault();
+    //console.log("state",this.state)
+
+     this.setState({ error : [] })
+     let valores = []
+
+
+    if(this.state.nome == ""){
+      valores.push(["Nome Vazio"])
+      this.setState({ error : valores})
+       
+
+    }
+    if(this.state.email == ""){
+      valores.push(["Email Vazio"])
+      this.setState({ error : valores})
+    }
+
+    if(this.state.senha == ""){
+      valores.push(["Senha Vazia"])
+      this.setState({ error : valores})
+    }
+
+    console.log(this.state.error.length)
   }
-  
-  trocaEmail(e){
 
-    this.setState({sexo : e.target.value})
 
-  }
-  
-  
-  render() {
+  render(){
+
     return (
-      <div>
-        <div>Login</div>
-        <label>Email </label>  <input type="text" name="email" value={this.state.email}  onChange={ (e) => this.setState({ email : e.target.value})}/> <br />
-         <label>Senha </label>  <input type="password" name="senha" value={this.state.senha} onChange={ (e) => this.setState({senha : e.target.value})} /> <br />
-        <select name="sexo" onChange={ (e) => this.trocaSexo(e)} value={this.state.sexo}>
-          <option value="masculino">Masculino</option>
-          <option value="feminino">Feminino</option>
-        </select>
 
-      <h3>Login {this.state.email}</h3>
-      <h3>Senha {this.state.senha}</h3>
-      <h3>Login {this.state.sexo}</h3>
+      <div>
+          <h2>Cadastro Usuário</h2>
+        <form onSubmit={ (event) => this.validar(event)}>
+          {this.state.error.length != 0 &&
+          <p>{ this.state.error.map( (erro) => {
+                return <div>{erro}</div>
+           } )}</p>
+          }
+          <label for="nome">Nome : </label>
+          <input type="text" name="nome" value={this.state.nome} onChange={ (e) => this.setState({ nome : e.target.value}) }  ></input><br />
+          <label for="email ">Email : </label>
+          <input type="email" name="email" value={this.state.email} onChange={ (e) => this.setState({ email : e.target.value}) }  ></input><br />
+          <label for="senha ">Senha : </label>
+          <input type="password" name="senha" value={this.state.senha} onChange={ (e) => this.setState({ senha : e.target.value}) }  ></input><br />
+          <button>Enviar</button>
+
+
+        </form>
       </div>
+
     )
+
   }
 }
 
-export default App;
 
+
+export default App;
