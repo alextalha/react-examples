@@ -4,64 +4,53 @@ import '../src/estilo.css'
 
 class App extends Component{
 
-  constructor(){
-    super()
-      this.state = { 
-        frase :  ""
+  //http://sujeitoprogramador.com/rn-api/?api=posts
+  
+
+  constructor(props){
+    super(props)
+    this.state = {
+      nutri : []
     }
-
-     this.frases =  ['Siga os bons e aprenda com eles.', 'O bom-senso vale mais do que muito conhecimento.', 
-     'O riso é a menor distância entre duas pessoas.', 
-     'Deixe de lado as preocupações e seja feliz.',
-     'Realize o óbvio, pense no improvável e conquiste o impossível.',
-     'Acredite em milagres, mas não dependa deles.',
-     'A maior barreira para o sucesso é o medo do fracasso.'];
-
-     this.quebraBiscoito = this.quebraBiscoito.bind(this)
   }
 
+  componentDidMount(){
 
-  quebraBiscoito(){
-
-    let frase = this.frases[Math.floor( Math.random() * this.frases.length)]
-    this.setState( { frase })
-
+    let url = "http://sujeitoprogramador.com/rn-api/?api=posts"
+    fetch(url)
+      .then((r) => r.json())
+      .then((json) => {
+        let state = this.state;
+        state.nutri = json;
+        this.setState(state);
+      })
   }
-
 
   render(){
 
     return (
       
       <div className="container">
-        <img className="img"  src={require("../src/assets/biscoito.png")} />
-        <Botao acaoBtn={this.quebraBiscoito} nome="Abrir Biscoito" />
-        <h3 className="textoFrases">{this.state.frase}</h3>
+        <header>
+            <strong>React Nutri</strong>
+        </header>
+        { this.state.nutri.map( (item) =>{
+          return(
+            <article className="post" key={item.id}>
+              <strong className="titulo"> {item.titulo}</strong>
+              <img className="capa" src={item.capa} />
+              <p className="subtitulo">{item.subtitulo}</p>
+              <a className="botao" href="#">Acessar</a>
+            </article>
+          )
+        })}
+    
       </div>
       
-
     )
 
   }
 }
-
-
-class Botao extends Component{
-
-
-
-
-  render(){
-    return(
-      <div>
-        <button onClick={this.props.acaoBtn}>{this.props.nome}</button>
-      </div>
-    )
-  }
-}
-
-
-
 
 
 
