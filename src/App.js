@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import Rota  from './routes'
+import "./index.css"
+import Routes from  '../src/routes' 
 
 class App extends Component{
 
@@ -14,11 +15,13 @@ class App extends Component{
 
   }
 
+
+
   render(){
 
     return (
-      <div className="container">
-         <Rota/>
+      <div className="app">
+        <Routes />
       </div>
       
     )
